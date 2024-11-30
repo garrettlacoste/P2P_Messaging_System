@@ -2,8 +2,8 @@
 #ifndef NETWORKING_H
 #define NETWORKING_H
 
-#define ENCRYPTION_KEY "ThisIsAnEncryptionKey123456789" // Replace with securely generated key and DO NOT put the generated key in the repo
-#define ENCRYPTION_IV "YourInitVector1234"         // Replace with securely generated IV and DO NOT put the generated IV in the repo
+/*#define ENCRYPTION_KEY "ThisIsAnEncryptionKey123456789" // Replace with securely generated key and DO NOT put the generated key in the repo
+#define ENCRYPTION_IV "YourInitVector1234"         // Replace with securely generated IV and DO NOT put the generated IV in the repo*/
 
 #include <WinSock2.h>
 #include <iostream>
@@ -20,6 +20,8 @@ namespace network{
     const int MAX_PARTICIPTANTS = 2; //minimum of 2 
     const int BUFFER_SIZE = 1024;
     const int MAX_MESSAGE_LEN = BUFFER_SIZE;
+
+    extern void generateSecureKey(std::string& key, std::string& iv);
 
     //these needed to be extern so they wouldn't be defined multiple times
     extern std::string encryptMessage(const std::string& plaintext, const std::string& key, const std::string& iv);

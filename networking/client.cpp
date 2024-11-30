@@ -99,7 +99,12 @@ network::client::~client(){
 }
 
 bool network::client::sendMessage(std::string message){
-    std::string encryptedMessage = encryptMessage(message, ENCRYPTION_KEY, ENCRYPTION_IV); // encrypt message
+    // Generate random key and IV for encryption
+    std::string key, iv;
+    generateSecureKey(key, iv);  // Generate random key and IV
+
+    // Encrypt the message using the generated key and IV
+    std::string encryptedMessage = encryptMessage(message, key, iv);
     int error;
     error = send(clientSocket,encryptedMessage.c_str(),encryptedMessage.length(),0);
     if((error == SOCKET_ERROR) && (error = WSAGetLastError())){

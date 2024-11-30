@@ -112,7 +112,12 @@ std::string network::server::receiveMessage() const{
     }else{
         buffer[num_recv] = '\0';
 
-        std::string decryptedMessage = decryptMessage(std::string(buffer), ENCRYPTION_KEY, ENCRYPTION_IV); //decrypt message
+        // Generate random key and IV for decryption
+        std::string key, iv;
+        generateSecureKey(key, iv);  // Generate random key and IV
+
+        // Decrypt the received message using the generated key and IV
+        std::string decryptedMessage = decryptMessage(std::string(buffer), key, iv);  
         return decryptedMessage;
     }
 }
