@@ -82,7 +82,7 @@ int main(int argc,char** argv){
                             message = localServer->receiveMessage();
                             std::cout << message << "\n";
                         }while(message != "");
-                        addConnection(connections,localServer);
+                        delete localServer;
                     }
                 }
             }
@@ -94,10 +94,10 @@ int main(int argc,char** argv){
 
 //helper function implementation
 void acceptConnections(network::server* server,std::vector<network::server*>& connections){
-    network::server temp = network::server(server->acceptConnection());
+    network::server* temp = new network::server(server->acceptConnection());
     #pragma omp critical //so two things don't get pushed at the same time and both end up frankenstein'd
     {
-        connections.push_back(&temp);
+        connections.push_back(temp);
     }
 }
 
@@ -110,10 +110,10 @@ void addConnection(std::vector<network::server*>& connections,network::server* s
 
 network::server* getServer(std::vector<network::server*>& availableConnections){
     if(availableConnections.empty()) return nullptr;
-    std::vector<network::server*>::iterator temp;
+    std::vector<network::server*>::iterator temp = availableConnections.end() - 1;
     #pragma omp critical
     {
-        temp = availableConnections.end() - 1; //vector.end points 1 past the end, so subtract 1 to get the last element
+        //temp = availableConnections.end() - 1; //vector.end points 1 past the end, so subtract 1 to get the last element
         availableConnections.erase(temp);
     }
     return *temp;
