@@ -60,7 +60,7 @@ int main(int argc,char** argv){
                         std::getline(std::cin,message);
                     }while(message != "" && localClient->sendMessage(message));
                     std::cout << "Closing client\n";
-                    localClient->~client();
+                    delete localClient;
                 }
 
                 if(connections.size() < (network::MAX_PARTICIPTANTS - 1)){
